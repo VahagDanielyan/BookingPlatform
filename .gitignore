@@ -1,0 +1,11 @@
+# .NET build artifacts
+bin/
+obj/
+
+# Rider / JetBrains
+.idea/
+
+# Visual Studio / Rider user files
+.vs/
+*.user
+*.suo

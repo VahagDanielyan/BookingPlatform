@@ -1,4 +1,5 @@
-using Microsoft.OpenApi;
+using Microsoft.Extensions.Options;
+using PaymentService.API.Configurations;
 using PaymentService.Application;
 using PaymentService.Infrastructure;
 using PaymentService.Persistence;
@@ -13,7 +14,7 @@ public static class SetupServicesExtensions
             .AddApplication()
             .AddInfrastructure()
             .AddPersistence()
-            .AddApi();
+            .AddApi(builder.Configuration);
 
         return builder;
     }
@@ -22,24 +23,17 @@ public static class SetupServicesExtensions
     {
         if (app.Environment.IsDevelopment())
         {
-            var config = app.Configuration;
-
-            bool swaggerEnabled = config.GetValue<bool>("SwaggerSettings:Enabled");
-
-            if (swaggerEnabled)
+            var swaggerSettings = app.Services
+                .GetRequiredService<IOptions<SwaggerSettings>>()
+                .Value;
+            
+            if (swaggerSettings.IsEnabled)
             {
-                string title = config.GetRequiredSection("SwaggerSettings:Title").Value ??
-                               throw new InvalidOperationException("SwaggerSettings:Title is null");
-                string endpoint = config.GetRequiredSection("SwaggerSettings:Endpoint").Value ??
-                                  throw new InvalidOperationException("SwaggerSettings:Endpoint is null");
-                string routePrefix = config.GetRequiredSection("SwaggerSettings:RoutePrefix").Value ??
-                                     throw new InvalidOperationException("SwaggerSettings:RoutePrefix is null");
-
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint(endpoint, title);
-                    c.RoutePrefix = routePrefix;
+                    c.SwaggerEndpoint(swaggerSettings.Endpoint, swaggerSettings.Title);
+                    c.RoutePrefix = swaggerSettings.RoutePrefix;
                 });
             }
         }

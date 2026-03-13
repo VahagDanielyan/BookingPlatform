@@ -7,16 +7,19 @@ public sealed class IdentityUser : AggregateRoot<Guid>
 {
     private IdentityUser(
         Email email,
+        Phone phone,
         PasswordHash passwordHash)
     {
         Id = Guid.NewGuid();
         Email = email;
+        Phone = phone;
         PasswordHash = passwordHash;
         CreatedAt = DateTime.UtcNow;
         IsActive = true;
     }
 
     public Email Email { get; private set; }
+    public Phone Phone { get; private set; }
     public PasswordHash PasswordHash { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -37,5 +40,6 @@ public sealed class IdentityUser : AggregateRoot<Guid>
         PasswordHash = newPasswordHash;
     }
 
-    public static IdentityUser Create(Email email, PasswordHash passwordHash) => new(email, passwordHash);
+    public static IdentityUser Create(Email email, Phone phone, PasswordHash passwordHash) =>
+        new(email, phone, passwordHash);
 }

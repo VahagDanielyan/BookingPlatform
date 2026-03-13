@@ -8,8 +8,4 @@ var app = builder.Build();
 
 app.ConfigurePipeline();
 
-//Apply any pending EF Core migrations before application start.
-if (app.Environment.IsDevelopment())
-    await app.InitAndRunAsync();
-else
-    await app.RunAsync();
+await app.RunAsync();

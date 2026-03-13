@@ -12,7 +12,6 @@ public static class DependencyInjection
         services.AddDbContext<BpIdentityServiceDbContext>(options =>
             options.UseNpgsql(builder =>
                 builder.MigrationsAssembly(typeof(IdentityService.Persistence.DependencyInjection).Assembly)));
-        services.AddAsyncInitializer<IdentityDbContextInitializer>();
 
         return services;
     }

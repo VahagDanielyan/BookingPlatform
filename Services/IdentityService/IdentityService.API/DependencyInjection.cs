@@ -11,7 +11,7 @@ public static class DependencyInjection
         services.AddSwaggerGen();
         services.AddControllers();
         services.AddValidatorsFromAssembly(
-            typeof(IdentityService.API.DependencyInjection).Assembly,
+            typeof(API.DependencyInjection).Assembly,
             ServiceLifetime.Singleton);
         services.AddOptions<SwaggerSettings>()
             .Bind(configuration.GetSection(nameof(SwaggerSettings)))

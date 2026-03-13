@@ -9,8 +9,6 @@ public class IdentityUserConfiguration : IEntityTypeConfiguration<IdentityUser>
 {
     public void Configure(EntityTypeBuilder<IdentityUser> builder)
     {
-        builder.HasKey(x => x.Id);
-
         builder.Property(x => x.Email)
             .HasConversion(
                 x => x.Value,
@@ -22,8 +20,8 @@ public class IdentityUserConfiguration : IEntityTypeConfiguration<IdentityUser>
             .HasConversion(
                 phone => phone.Value,
                 value => Phone.Create(value))
-            .HasMaxLength(Phone.MaxLength)
-            .HasColumnType("VARCHAR");
+            .HasColumnType("VARCHAR")
+            .HasMaxLength(Phone.MaxLength);
 
         builder.Property(x => x.PasswordHash)
             .HasConversion(

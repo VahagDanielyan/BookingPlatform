@@ -20,10 +20,13 @@ public sealed class HostName : ValueObject
     {
         if (string.IsNullOrWhiteSpace(value))
             throw new DomainException($"{nameof(HostName)} cannot be null or whitespace.");
+
         if (value.Length > MaxLength)
             throw new DomainException($"{nameof(HostName)} cannot exceed {MaxLength} characters.");
+
         if (value.Length < MinLength)
             throw new DomainException($"{nameof(HostName)} must contain at least {MinLength} characters.");
+
         if (!RegexPatterns.LatinOnlyWithSingleSpaces().IsMatch(value))
             throw new DomainException($"{nameof(HostName)} must contain only Latin letters and single spaces.");
 

@@ -17,7 +17,7 @@ public class BpIdentityServiceDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql(_configuration.GetConnectionString("BPIdentityService"));
+        optionsBuilder.UseNpgsql(_configuration.GetConnectionString("BPIdentityServiceDBConnection"));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -1,3 +1,4 @@
+using IdentityService.Domain.Enums;
 using IdentityService.Domain.Exceptions;
 using IdentityService.Domain.ValueObjects;
 
@@ -8,19 +9,22 @@ public sealed class IdentityUser : AggregateRoot<Guid>
     private IdentityUser(
         Email email,
         Phone phone,
-        PasswordHash passwordHash)
+        PasswordHash passwordHash,
+        IdentityRoles roles)
     {
         Id = Guid.NewGuid();
         Email = email;
         Phone = phone;
         PasswordHash = passwordHash;
-        CreatedAt = DateTime.UtcNow;
+        Roles = roles;
         IsActive = true;
+        CreatedAt = DateTime.UtcNow;
     }
 
     public Email Email { get; private set; }
     public Phone Phone { get; private set; }
     public PasswordHash PasswordHash { get; private set; }
+    public IdentityRoles Roles { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
 
@@ -40,6 +44,12 @@ public sealed class IdentityUser : AggregateRoot<Guid>
         PasswordHash = newPasswordHash;
     }
 
-    public static IdentityUser Create(Email email, Phone phone, PasswordHash passwordHash) =>
-        new(email, phone, passwordHash);
+    public void AddRole(IdentityRoles roles) => Roles |= roles;
+
+    public void RemoveRole(IdentityRoles roles) => Roles &= ~roles;
+
+    public bool HasRole(IdentityRoles roles) => (Roles & roles) == roles;
+
+    public static IdentityUser Create(Email email, Phone phone, PasswordHash passwordHash, IdentityRoles roleses) =>
+        new(email, phone, passwordHash, roleses);
 }

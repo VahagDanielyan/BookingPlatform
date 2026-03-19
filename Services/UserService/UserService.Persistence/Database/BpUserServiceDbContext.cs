@@ -8,17 +8,12 @@ public class BpUserServiceDbContext : DbContext
 {
     private readonly IConfiguration _configuration;
 
-    public BpUserServiceDbContext(IConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
+    public BpUserServiceDbContext(IConfiguration configuration) => _configuration = configuration;
 
     public DbSet<User> Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
         optionsBuilder.UseNpgsql(_configuration.GetConnectionString("BPUserServiceDBConnection"));
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -2,9 +2,9 @@ using UserService.Domain.ValueObjects;
 
 namespace UserService.Domain.Entities;
 
-public sealed class UserProfile : AggregateRoot<Guid>
+public sealed class User : AggregateRoot<Guid>
 {
-    private UserProfile(Guid identityUserId, FirstName firstName, LastName lastName)
+    public User(Guid identityUserId, FirstName firstName, LastName lastName)
     {
         Id = Guid.NewGuid();
         IdentityUserId = identityUserId;
@@ -18,6 +18,6 @@ public sealed class UserProfile : AggregateRoot<Guid>
     public LastName LastName { get; private set; }
     public DateTime CreatedAt { get; private set; }
 
-    public static UserProfile Create(Guid identityUserId, FirstName firstName, LastName lastName) =>
+    public static User Create(Guid identityUserId, FirstName firstName, LastName lastName) =>
         new(identityUserId, firstName, lastName);
 }

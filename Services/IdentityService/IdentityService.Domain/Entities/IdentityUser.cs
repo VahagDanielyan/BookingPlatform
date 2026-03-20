@@ -9,7 +9,7 @@ public sealed class IdentityUser : AggregateRoot<Guid>
     private IdentityUser(
         Email email,
         Phone phone,
-        PasswordHash passwordHash,
+        string passwordHash,
         IdentityRoles roles)
     {
         Id = Guid.NewGuid();
@@ -23,7 +23,7 @@ public sealed class IdentityUser : AggregateRoot<Guid>
 
     public Email Email { get; private set; }
     public Phone Phone { get; private set; }
-    public PasswordHash PasswordHash { get; private set; }
+    public string PasswordHash { get; private set; }
     public IdentityRoles Roles { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -36,7 +36,7 @@ public sealed class IdentityUser : AggregateRoot<Guid>
         IsActive = false;
     }
 
-    public void ChangePassword(PasswordHash newPasswordHash)
+    public void ChangePassword(string newPasswordHash)
     {
         if (PasswordHash == newPasswordHash)
             throw new DomainException($"{nameof(newPasswordHash)} cannot be same.");
@@ -50,6 +50,6 @@ public sealed class IdentityUser : AggregateRoot<Guid>
 
     public bool HasRole(IdentityRoles roles) => (Roles & roles) == roles;
 
-    public static IdentityUser Create(Email email, Phone phone, PasswordHash passwordHash, IdentityRoles roleses) =>
-        new(email, phone, passwordHash, roleses);
+    public static IdentityUser Create(Email email, Phone phone, string passwordHash, IdentityRoles roles) =>
+        new(email, phone, passwordHash, roles);
 }

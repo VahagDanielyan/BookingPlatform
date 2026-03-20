@@ -22,11 +22,5 @@ public class IdentityUserConfiguration : IEntityTypeConfiguration<IdentityUser>
                 value => Phone.Create(value))
             .HasColumnType("VARCHAR")
             .HasMaxLength(Phone.MaxLength);
-
-        builder.Property(x => x.PasswordHash)
-            .HasConversion(
-                hash => hash.Value,
-                value => PasswordHash.Create(value))
-            .HasColumnType("VARCHAR");
     }
 }

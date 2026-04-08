@@ -26,7 +26,7 @@ public static class SetupApplicationExtensions
         {
             app.ApplyAutoMigrationIfEnabled();
         }
-
+        
         app.MapGrpcService<IdentityGrpcServer>();
 
         return app;

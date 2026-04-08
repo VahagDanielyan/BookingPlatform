@@ -1,22 +1,20 @@
 using FluentValidation;
-using IdentityService.API.Configurations;
 using IdentityService.API.Extensions;
 
 namespace IdentityService.API;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApi(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddApi(this IServiceCollection services)
     {
-        services.AddSwaggerGen();
-        services.AddControllers();
         services.AddValidatorsFromAssembly(
-            typeof(API.DependencyInjection).Assembly,
+            typeof(DependencyInjection).Assembly,
             ServiceLifetime.Singleton);
-        services.AddOptions<SwaggerSettings>()
-            .Bind(configuration.GetSection(nameof(SwaggerSettings)))
-            .ValidateFluentValidation()
-            .ValidateOnStart();
+        services.AddMapster();
+        services.AddMediatR(config => config.RegisterServicesFromAssemblies(
+            typeof(DependencyInjection).Assembly,
+            typeof(Application.DependencyInjection).Assembly));
+        services.AddGrpc();
 
         return services;
     }

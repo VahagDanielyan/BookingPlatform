@@ -14,7 +14,7 @@ public static class SetupApplicationExtensions
     {
         builder.Services
             .AddApplication()
-            .AddInfrastructure()
+            .AddInfrastructure(builder.Configuration)
             .AddPersistence()
             .AddApi(builder.Configuration);
 

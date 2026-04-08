@@ -11,12 +11,16 @@ public static class DependencyInjection
         services.AddSwaggerGen();
         services.AddControllers();
         services.AddValidatorsFromAssembly(
-            typeof(UserService.API.DependencyInjection).Assembly,
+            typeof(DependencyInjection).Assembly,
             ServiceLifetime.Singleton);
         services.AddOptions<SwaggerSettings>()
             .Bind(configuration.GetSection(nameof(SwaggerSettings)))
             .ValidateFluentValidation()
             .ValidateOnStart();
+        services.AddMapster();
+        services.AddMediatR(config => config.RegisterServicesFromAssemblies(
+            typeof(DependencyInjection).Assembly,
+            typeof(Application.DependencyInjection).Assembly));
 
         return services;
     }

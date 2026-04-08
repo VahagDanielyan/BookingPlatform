@@ -1,4 +1,6 @@
-﻿using IdentityService.Persistence.Database;
+﻿using IdentityService.Application.Interfaces;
+using IdentityService.Persistence.Database;
+using IdentityService.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,7 +12,8 @@ public static class DependencyInjection
     {
         services.AddDbContext<BpIdentityServiceDbContext>(options =>
             options.UseNpgsql(builder =>
-                builder.MigrationsAssembly(typeof(Persistence.DependencyInjection).Assembly)));
+                builder.MigrationsAssembly(typeof(DependencyInjection).Assembly)));
+        services.AddScoped<IIdentityUserRepository, IdentityUserRepository>();
 
         return services;
     }

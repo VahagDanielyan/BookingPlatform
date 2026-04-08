@@ -1,10 +1,9 @@
-using IdentityService.API.Configurations;
+using IdentityService.API.Grpc;
 using IdentityService.Application;
 using IdentityService.Infrastructure;
 using IdentityService.Persistence;
 using IdentityService.Persistence.Database;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace IdentityService.API.Extensions;
 
@@ -16,7 +15,7 @@ public static class SetupApplicationExtensions
             .AddApplication()
             .AddInfrastructure()
             .AddPersistence()
-            .AddApi(builder.Configuration);
+            .AddApi();
 
         return builder;
     }
@@ -25,29 +24,12 @@ public static class SetupApplicationExtensions
     {
         if (app.Environment.IsDevelopment())
         {
-            app.UseSwaggerIfEnabled();
             app.ApplyAutoMigrationIfEnabled();
         }
 
-        app.MapControllers();
+        app.MapGrpcService<IdentityGrpcServer>();
 
         return app;
-    }
-
-    private static void UseSwaggerIfEnabled(this WebApplication app)
-    {
-        var swaggerSettings = app.Services
-            .GetRequiredService<IOptions<SwaggerSettings>>()
-            .Value;
-
-        if (!swaggerSettings.IsEnabled) return;
-
-        app.UseSwagger();
-        app.UseSwaggerUI(c =>
-        {
-            c.SwaggerEndpoint(swaggerSettings.Endpoint, swaggerSettings.Title);
-            c.RoutePrefix = swaggerSettings.RoutePrefix;
-        });
     }
 
     private static void ApplyAutoMigrationIfEnabled(this WebApplication app)

@@ -4,7 +4,7 @@ namespace UserService.Domain.Entities;
 
 public sealed class User : AggregateRoot<Guid>
 {
-    public User(Guid identityUserId, FirstName firstName, LastName lastName)
+    private User(Guid identityUserId, FirstName firstName, LastName lastName)
     {
         Id = Guid.NewGuid();
         IdentityUserId = identityUserId;

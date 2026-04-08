@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using IdentityService.Application.Interfaces;
+using IdentityService.Application.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace IdentityService.Application;
 
@@ -6,6 +8,9 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
+        services.AddScoped<IPasswordHasherService, PasswordHasherService>();
+        services.AddScoped<IIdentityUserService, IdentityUserService>();
+
         return services;
     }
 }

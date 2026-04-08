@@ -48,7 +48,7 @@ namespace IdentityService.Persistence.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<int>("Roles")
+                    b.Property<int>("Role")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");

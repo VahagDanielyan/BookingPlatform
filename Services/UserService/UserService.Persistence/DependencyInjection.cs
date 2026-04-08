@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using UserService.Application.Interfaces;
 using UserService.Persistence.Database;
+using UserService.Persistence.Repositories;
 
 namespace UserService.Persistence;
 
@@ -10,7 +12,8 @@ public static class DependencyInjection
     {
         services.AddDbContext<BpUserServiceDbContext>(options =>
             options.UseNpgsql(builder =>
-                builder.MigrationsAssembly(typeof(Persistence.DependencyInjection).Assembly)));
+                builder.MigrationsAssembly(typeof(DependencyInjection).Assembly)));
+        services.AddScoped<IUserRepository, UserRepository>();
         
         return services;
     }

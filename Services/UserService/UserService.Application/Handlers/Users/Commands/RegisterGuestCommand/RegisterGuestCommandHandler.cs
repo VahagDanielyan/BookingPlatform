@@ -1,5 +1,5 @@
-using MapsterMapper;
 using MediatR;
+using Shared.Domain.Enums;
 using UserService.Application.DTOs;
 using UserService.Application.Interfaces;
 
@@ -8,41 +8,47 @@ namespace UserService.Application.Handlers.Users.Commands.RegisterGuestCommand;
 public class RegisterGuestCommandHandler : IRequestHandler<RegisterGuestCommand, Guid>
 {
     private readonly IUserService _userService;
-    private readonly IIdentityService _identityService;
+    private readonly IUserCredentialsService _userCredentialsService;
 
-    public RegisterGuestCommandHandler(IUserService userService, IIdentityService identityService, IMapper mapper)
+    public RegisterGuestCommandHandler(
+        IUserService userService,
+        IUserCredentialsService userCredentialsService)
     {
         _userService = userService;
-        _identityService = identityService;
+        _userCredentialsService = userCredentialsService;
     }
 
     public async Task<Guid> Handle(RegisterGuestCommand registerGuestCommand, CancellationToken cancellationToken)
     {
-        var identityUserId =
-            await _identityService.RegisterIdentityGuestAsync(
-                new RegisterIdentityGuestRequest(
-                    registerGuestCommand.Email, registerGuestCommand.Phone, registerGuestCommand.Password),
+        Guid userCredentialsId;
+
+        try
+        {
+            userCredentialsId = await _userCredentialsService.RegisterUserCredentialsAsync(
+                new RegisterUserCredentailsRequest(
+                    registerGuestCommand.Email,
+                    registerGuestCommand.Phone,
+                    registerGuestCommand.Password,
+                    UserRole.Guest),
                 cancellationToken);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
 
         try
         {
             var userId = await _userService.AddUserAsync(
-                new AddUserRequest(identityUserId, registerGuestCommand.FirstName, registerGuestCommand.LastName),
+                new AddUserRequest(userCredentialsId, registerGuestCommand.FirstName, registerGuestCommand.LastName),
                 cancellationToken);
 
             return userId;
         }
         catch
         {
-            try
-            {
-                await _identityService.RemoveIdentityByIdAsync(identityUserId, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"{ex.Message}, {ex.StackTrace}");
-                throw;
-            }
+            await _userCredentialsService.RemoveUserCredentialsIdAsync(userCredentialsId);
 
             throw;
         }

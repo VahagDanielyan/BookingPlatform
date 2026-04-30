@@ -36,13 +36,13 @@ namespace UserService.Persistence.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<Guid>("IdentityUserId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("VARCHAR");
+
+                    b.Property<Guid>("UserCredentialsId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 

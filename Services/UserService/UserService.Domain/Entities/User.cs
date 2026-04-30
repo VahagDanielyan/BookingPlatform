@@ -4,20 +4,20 @@ namespace UserService.Domain.Entities;
 
 public sealed class User : AggregateRoot<Guid>
 {
-    private User(Guid identityUserId, FirstName firstName, LastName lastName)
+    private User(Guid userCredentialsId, FirstName firstName, LastName lastName)
     {
         Id = Guid.NewGuid();
-        IdentityUserId = identityUserId;
+        UserCredentialsId = userCredentialsId;
         FirstName = firstName;
         LastName = lastName;
         CreatedAt = DateTime.UtcNow;
     }
 
-    public Guid IdentityUserId { get; private set; }
+    public Guid UserCredentialsId { get; private set; }
     public FirstName FirstName { get; private set; }
     public LastName LastName { get; private set; }
     public DateTime CreatedAt { get; private set; }
 
-    public static User Create(Guid identityUserId, FirstName firstName, LastName lastName) =>
-        new(identityUserId, firstName, lastName);
+    public static User Create(Guid userCredentialsId, FirstName firstName, LastName lastName) =>
+        new(userCredentialsId, firstName, lastName);
 }

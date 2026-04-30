@@ -1,5 +1,5 @@
+using Shared.Domain.Exceptions;
 using UserService.Domain.Common;
-using UserService.Domain.Exceptions;
 
 namespace UserService.Domain.ValueObjects;
 
@@ -15,16 +15,16 @@ public sealed class FirstName : ValueObject
     public static FirstName Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            throw new DomainException($"{nameof(FirstName)} cannot be empty or whitespace.");
+            throw new ValidationDomainException($"{nameof(FirstName)} cannot be empty or whitespace.");
 
         if (value.Length > MaxLength)
-            throw new DomainException($"{nameof(FirstName)} cannot exceed {MaxLength} characters.");
+            throw new ValidationDomainException($"{nameof(FirstName)} cannot exceed {MaxLength} characters.");
 
         if (value.Length < MinLength)
-            throw new DomainException($"{nameof(FirstName)} must contain at least {MinLength} characters.");
+            throw new ValidationDomainException($"{nameof(FirstName)} must contain at least {MinLength} characters.");
 
         if (!RegexPatterns.LatinOnly().IsMatch(value))
-            throw new DomainException($"{nameof(FirstName)} must contain only Latin letters and no spaces.");
+            throw new ValidationDomainException($"{nameof(FirstName)} must contain only Latin letters and no spaces.");
 
         return new FirstName(value);
     }

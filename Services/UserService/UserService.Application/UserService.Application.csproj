@@ -7,19 +7,23 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
-      <PackageReference Include="Mapster" Version="10.0.6" />
-      <PackageReference Include="MediatR" Version="14.1.0" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.2" />
-      <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.2" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1"/>
+        <PackageReference Include="Mapster" Version="10.0.6"/>
+        <PackageReference Include="MediatR" Version="14.1.0"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.2"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\UserService.Domain\UserService.Domain.csproj" />
+        <ProjectReference Include="..\UserService.Domain\UserService.Domain.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Extensions\" />
+        <Folder Include="Extensions\"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\..\Shared\Shared.Kafka\Shared.Kafka.csproj"/>
+        <ProjectReference Include="..\..\Shared\Shared.Domain\Shared.Domain.csproj"/>
+    </ItemGroup>
 </Project>

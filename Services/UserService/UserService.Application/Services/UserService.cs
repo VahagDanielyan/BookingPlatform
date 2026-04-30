@@ -15,7 +15,7 @@ public class UserService : IUserService
     {
         var firstName = FirstName.Create(request.FirstName);
         var lastName = LastName.Create(request.LastName);
-        var user = User.Create(request.IdentityUserId, firstName, lastName);
+        var user = User.Create(request.UserCredentailsId, firstName, lastName);
 
         await _userRepository.AddAsync(user);
 
